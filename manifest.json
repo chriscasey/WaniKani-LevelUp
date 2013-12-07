@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "LevelUp!",
+  "description": "Know the soonest time you can level up in WaniKani",
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": ["http://*.wanikani.com/*"],
+      "js": ["js/jquery.js", "js/wanikani.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": ["http://*.wanikani.com/*", "storage"],
+  "web_accessible_resources": ["css/chrome-bootstrap.css", "css/main.css"]
+}
