@@ -1,6 +1,6 @@
 section#level-up h4 {
 	clear: none;
-	float: left;
+/*	float: left;*/
 	height: 20px;
 	margin-top: 0px;
 	margin-bottom: 4px;
@@ -10,7 +10,7 @@ section#level-up h4 {
 
 section#level-up h3 {
 	clear: none;
-	float: left;
+/*	float: left;*/
 	margin-top: 0px;
 	margin-bottom: 4px;
 	margin-right: 12px;
