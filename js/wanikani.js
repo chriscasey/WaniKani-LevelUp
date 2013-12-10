@@ -80,7 +80,8 @@ function addLevelProgressionData(data) {
 	var rad_prog = data.requested_information.radicals_progress;
 	var rad_total = data.requested_information.radicals_total;
 	var rad_perc = Math.round((rad_prog / rad_total) * 100);
-	$("#level-up").append("<div id='lu-rads'><h3>Radicals: "+rad_prog+"/"+rad_total+" ("+ rad_perc +"%)</h3></div>");
+	$("#level-up").append("<div id='lu-rads'><h3>Radicals: "+rad_prog+"/"+rad_total+" ("+ rad_perc +"%) [need "+Math.ceil(rad_total * .9)+"/"+rad_total+"]</h3></div>");
+	console.log(Math.ceil(rad_total * .9));
 	$.ajax({
 		type: 'get',
 		url: '/api/user/' + apiKey + '/radicals/' + user_level,
@@ -91,7 +92,7 @@ function addLevelProgressionData(data) {
 	var kan_prog = data.requested_information.kanji_progress;
 	var kan_total = data.requested_information.kanji_total;
 	var kan_perc = Math.round((kan_prog / kan_total) * 100);
-	$("#level-up").append("<div id='lu-kan'><h3>Kanji: "+rad_prog+"/"+kan_total+" ("+ kan_perc +"%)</h3></div>");
+	$("#level-up").append("<div id='lu-kan'><h3>Kanji: "+rad_prog+"/"+kan_total+" ("+ kan_perc +"%) [need "+Math.ceil(kan_total * .9)+"/"+kan_total+"]</h3></div>");
 	$.ajax({
 		type: 'get',
 		url: '/api/user/' + apiKey + '/kanji/' + user_level,
