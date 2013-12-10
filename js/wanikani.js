@@ -25,19 +25,49 @@ function createSheet(name) {
 }
 
 function currentLevelRadicals(data){
-	var radicals = "";
+	var rads = new Object();
 	for (pos in data.requested_information) {
-		radicals += data.requested_information[pos].character;
+		if (data.requested_information[pos].user_specific.srs == "apprentice") {
+			if (!rads[data.requested_information[pos].user_specific.available_date]) {
+				rads[data.requested_information[pos].user_specific.available_date] = new Array();
+			}
+			rads[data.requested_information[pos].user_specific.available_date].push(data.requested_information[pos]);
+		}
 	}
-	$("#lu-rads").append("<br><p>"+radicals+"</p>");
+	var times = Object.keys(rads);
+	times.sort(function(a,b){return a-b});
+	for (curr in times) {
+		$("#lu-rads").append("<ul id='" +times[curr]+"' class='rad-list'></ul>");
+		var date = new Date(times[curr]*1000);
+		$("#"+times[curr]).append("<li>"+date+"</li>");
+		var chars = rads[times[curr]];
+		for (i in chars) {
+			$("#"+times[curr]).append("<li>"+chars[i].character+"</li>");
+		}
+	}
 };
 
 function currentLevelKanji(data){
-	var kanji = "";
+	var kans = new Object();
 	for (pos in data.requested_information) {
-		kanji += data.requested_information[pos].character;
+		if (data.requested_information[pos].user_specific != null) {
+			if (!kans[data.requested_information[pos].user_specific.available_date]) {
+				kans[data.requested_information[pos].user_specific.available_date] = new Array();
+			}
+			kans[data.requested_information[pos].user_specific.available_date].push(data.requested_information[pos]);	
+		}
 	}
-	$("#lu-kan").append("<br><p>"+kanji+"</p>");
+	var times = Object.keys(kans);
+	times.sort(function(a,b){return a-b});
+	for (curr in times) {
+		$("#lu-kan").append("<ul id='" +times[curr]+"' class='kan-list'></ul>");
+		var date = new Date(times[curr]*1000);
+		$("#"+times[curr]).append("<li>"+date+"</li>");
+		var chars = kans[times[curr]];
+		for (i in chars) {
+			$("#"+times[curr]).append("<li>"+chars[i].character+"</li>");
+		}
+	}
 };
 
 function addLevelProgressionData(data) {
@@ -51,7 +81,6 @@ function addLevelProgressionData(data) {
 	var rad_total = data.requested_information.radicals_total;
 	var rad_perc = Math.round((rad_prog / rad_total) * 100);
 	$("#level-up").append("<div id='lu-rads'><h3>Radicals: "+rad_prog+"/"+rad_total+" ("+ rad_perc +"%)</h3></div>");
-
 	$.ajax({
 		type: 'get',
 		url: '/api/user/' + apiKey + '/radicals/' + user_level,
@@ -63,7 +92,6 @@ function addLevelProgressionData(data) {
 	var kan_total = data.requested_information.kanji_total;
 	var kan_perc = Math.round((kan_prog / kan_total) * 100);
 	$("#level-up").append("<div id='lu-kan'><h3>Kanji: "+rad_prog+"/"+kan_total+" ("+ kan_perc +"%)</h3></div>");
-
 	$.ajax({
 		type: 'get',
 		url: '/api/user/' + apiKey + '/kanji/' + user_level,
